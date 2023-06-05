@@ -10,7 +10,18 @@ from sympy.geometry import Point, Line, Polygon, Segment, Circle, intersection
 from logzero import logger
 
 colors = [(255, 0, 0), (0, 255, 0), (0, 0, 255), (255, 0, 255)]
-fontname = 'arial.ttf' if os.name == 'nt' else 'DejaVuSans.ttf'
+#font = ImageFont.load_default()
+#fontname = font
+
+fontname = "arial.ttf"  # Replace "arial.ttf" with the actual font filename you want to use
+font_size = 38
+font = ImageFont.truetype(fontname, font_size)
+
+
+#fontname = 'arial.ttf' if os.name == 'nt' else 'DejaVuSans.ttf'
+
+#if not os.path.isfile(fontname):
+    #fontname = os.path.join(os.getcwd(), fontname)
 
 
 def draw_cobb(img, data):
