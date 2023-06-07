@@ -6,6 +6,7 @@ import decoder
 import os
 from dataset import BaseDataset
 import draw_points
+from cobb_evaluate import cobb_angle_calc
 
 def apply_mask(image, mask, alpha=0.5):
     """Apply the given mask to the image.
@@ -104,6 +105,11 @@ class Network(object):
             sort_ind = np.argsort(pts0[:,1])
             pts0 = pts0[sort_ind]
 
+            cobb_angles = cobb_angle_calc(pts0, ori_image_points)  ##add by me
+
+            cobb_angles = cobb_evaluate.cobb_angle_calc(pts, image) ##added by me
+            print(f'Cobb Angles: {cobb_angles}')   ##add by me
+
             ori_image_regress, ori_image_points = draw_points.draw_landmarks_regress_test(pts0,
                                                                                           ori_image_regress,
                                                                                           ori_image_points)
@@ -113,6 +119,8 @@ class Network(object):
 
             cv2.imwrite('ori_image_regress_{}.jpg'.format(cnt), ori_image_regress)
             cv2.imwrite('ori_image_points_{}.jpg'.format(cnt), ori_image_points)
+
+            
 
             k = cv2.waitKey(0) & 0xFF
             if k == ord('q'):
