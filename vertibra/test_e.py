@@ -108,12 +108,12 @@ class Network(object):
 
             #gt_landmarks = dsets.load_gt_pts(dsets.load_annoFolder(img_id))
             gt_landmarks = dsets.load_gt_pts(dsets.load_annoFolder('imp2.jpg'))
-            print(str(gt_landmarks))
+            #print(str(gt_landmarks))
             for pr_pt, gt_pt in zip(pr_landmarks, gt_landmarks):
                    landmark_dist.append(np.sqrt((pr_pt[0]-gt_pt[0])**2+(pr_pt[1]-gt_pt[1])**2))
 
             pr_cobb_angles.append(cobb_evaluate.cobb_angle_calc(pr_landmarks, ori_image))
-            gt_cobb_angles.append(cobb_evaluate.cobb_angle_calc(gt_landmarks, ori_image))
+            """ #gt_cobb_angles.append(cobb_evaluate.cobb_angle_calc(gt_landmarks, ori_image))
 
         pr_cobb_angles = np.asarray(pr_cobb_angles, np.float32)
         gt_cobb_angles = np.asarray(gt_cobb_angles, np.float32) 
@@ -131,7 +131,7 @@ class Network(object):
 
         total_time = total_time[1:]
         #print('avg time is {}'.format(np.mean(total_time)))
-        #print('FPS is {}'.format(1./np.mean(total_time))) 
+        #print('FPS is {}'.format(1./np.mean(total_time)))  """
 
 
 """     def SMAPE_single_angle(self, gt_cobb_angles, pr_cobb_angles):
