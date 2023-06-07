@@ -6,7 +6,8 @@ import decoder
 import os
 from dataset import BaseDataset
 import draw_points
-from cobb_evaluate import cobb_angle_calc
+#from cobb_evaluate import cobb_angle_calc
+import cobb_evaluate 
 
 def apply_mask(image, mask, alpha=0.5):
     """Apply the given mask to the image.
@@ -105,7 +106,7 @@ class Network(object):
             sort_ind = np.argsort(pts0[:,1])
             pts0 = pts0[sort_ind]
 
-            cobb_angles = cobb_angle_calc(pts0, ori_image_points)  ##add by me
+            cobb_angles = cobb_evaluate.cobb_angle_calc(pts0, ori_image_points)  ##add by me
 
             cobb_angles = cobb_evaluate.cobb_angle_calc(pts, image) ##added by me
             print(f'Cobb Angles: {cobb_angles}')   ##add by me
