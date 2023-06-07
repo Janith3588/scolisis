@@ -63,7 +63,7 @@ def cobb_angle_calc(pts, image):
     cobb_angle1 = cobb_angle1/np.pi*180
     flag_s = is_S(mid_p_v)
     if not flag_s: # not S
-        # print('Not S')
+        print('Not S')
         cobb_angle2 = angles[0, pos2]/np.pi*180
         cobb_angle3 = angles[vnum, pos1[pos2]]/np.pi*180
         cv2.line(image,
@@ -77,7 +77,7 @@ def cobb_angle_calc(pts, image):
 
     else:
         if (mid_p_v[pos2*2, 1]+mid_p_v[pos1[pos2]*2,1])<h:
-            # print('Is S: condition1')
+            print('Is S: condition1')
             angle2 = angles[pos2,:(pos2+1)]
             cobb_angle2 = np.max(angle2)
             pos1_1 = np.argmax(angle2)
@@ -100,7 +100,7 @@ def cobb_angle_calc(pts, image):
                      color=(0, 255, 0), thickness=5, lineType=2)
 
         else:
-            # print('Is S: condition2')
+            print('Is S: condition2')
             angle2 = angles[pos2,:(pos2+1)]
             cobb_angle2 = np.max(angle2)
             pos1_1 = np.argmax(angle2)
@@ -121,4 +121,5 @@ def cobb_angle_calc(pts, image):
                      (int(mid_p[pos1_2 * 2+1, 0]), int(mid_p[pos1_2 * 2 + 1, 1])),
                      color=(0, 255, 0), thickness=5, lineType=2)
 
+    print("cob1: "+ cobb_angle1,"cobb2 : " + cobb_angle2,"Cobb3 : " +  cobb_angle3)
     return [cobb_angle1, cobb_angle2, cobb_angle3]
