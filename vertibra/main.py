@@ -1,8 +1,8 @@
 import argparse
 import train
-import test2
+import test_e
 import eval
-import all
+#import all
 #import test as tst
 
 def parse_args():
@@ -35,14 +35,12 @@ if __name__ == '__main__':
         is_object.train_network(args)
 
     elif args.phase == 'test':
-        is_object = all.Network(args)
-        is_object.test(args, save=True)    ##made true
+        is_object = test_e.Network(args)
+        is_object.eval(args, save=False)    ##made true
 
-        is_object = all.Network(args)
-        is_object.test(args, save=True)    ##made true
+        is_object = test_e.Network1(args)
+        is_object.test(args, save=False)    ##made true
 
-        #is_object.test_single_image('my_image.jpg')    ##added by me
-        
     elif args.phase == 'eval':
         is_object = eval.Network(args)
         is_object.eval(args, save=True)   ##made true by me
