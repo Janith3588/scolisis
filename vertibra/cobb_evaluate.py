@@ -25,6 +25,9 @@ def cobb_angle_calc(pts, image):
     num_pts = pts.shape[0]   # number of points, 68
     vnum = num_pts//4-1
 
+    if pts.shape[0] % 2 != 0:
+        pts = pts[:-1, :]  # remove the last row if number of rows is odd
+
     mid_p_v = (pts[0::2,:]+pts[1::2,:])/2   # 34 x 2
     mid_p = []
     for i in range(0, num_pts, 4):

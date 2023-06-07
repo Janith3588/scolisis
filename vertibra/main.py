@@ -1,8 +1,8 @@
 import argparse
 import train
-import test
+import test2
 import eval
-import test as tst
+#import test as tst
 
 def parse_args():
     parser = argparse.ArgumentParser(description='CenterNet Modification Implementation')
@@ -33,7 +33,7 @@ if __name__ == '__main__':
         is_object = train.Network(args)
         is_object.train_network(args)
     elif args.phase == 'test':
-        is_object = test.Network(args)
+        is_object = test2.Network(args)
         is_object.test(args, save=True)    ##made true
         #is_object.test_single_image('my_image.jpg')    ##added by me
     elif args.phase == 'eval':
