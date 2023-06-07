@@ -34,9 +34,9 @@ if __name__ == '__main__':
         is_object.train_network(args)
     elif args.phase == 'test':
         is_object = test.Network(args)
-        is_object.test(args, save=False)
+        is_object.test(args, save=True)    ##made true
         #is_object.test_single_image('my_image.jpg')    ##added by me
     elif args.phase == 'eval':
         is_object = eval.Network(args)
-        is_object.eval(args, save=False)
+        is_object.eval(args, save=True)   ##made true by me
         # is_object.eval_three_angles(args, save=False)

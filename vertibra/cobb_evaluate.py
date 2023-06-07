@@ -117,5 +117,5 @@ def cobb_angle_calc(pts, image):
                      (int(mid_p[pos1_2 * 2+1, 0]), int(mid_p[pos1_2 * 2 + 1, 1])),
                      color=(0, 255, 0), thickness=5, lineType=2)
 
-    print("cob1: "+ cobb_angle1,"cobb2 : " + cobb_angle2,"Cobb3 : " +  cobb_angle3)
+    print("cob1: "+ str(cobb_angle1),"cobb2 : " + str(cobb_angle2),"Cobb3 : " +  str(cobb_angle3))
     return [cobb_angle1, cobb_angle2, cobb_angle3]
