@@ -4,6 +4,7 @@ import test_e
 import eval
 #import all
 #import test as tst
+import time
 
 def parse_args():
     parser = argparse.ArgumentParser(description='CenterNet Modification Implementation')
@@ -37,6 +38,9 @@ if __name__ == '__main__':
     elif args.phase == 'test':
         is_object = test_e.Network(args)
         is_object.eval(args, save=False)    ##made true
+
+        time.sleep(2)
+        print("weit 2 sec")
 
         is_object = test_e.Network1(args)
         is_object.test(args, save=False)    ##made true

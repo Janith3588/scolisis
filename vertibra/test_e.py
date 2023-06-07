@@ -106,43 +106,43 @@ class Network(object):
             end_time = time.time()
             total_time.append(end_time-begin_time)
 
-            gt_landmarks = dsets.load_gt_pts(dsets.load_annoFolder(img_id))
+            """ gt_landmarks = dsets.load_gt_pts(dsets.load_annoFolder(img_id))
             for pr_pt, gt_pt in zip(pr_landmarks, gt_landmarks):
-                    landmark_dist.append(np.sqrt((pr_pt[0]-gt_pt[0])**2+(pr_pt[1]-gt_pt[1])**2))
+                    landmark_dist.append(np.sqrt((pr_pt[0]-gt_pt[0])**2+(pr_pt[1]-gt_pt[1])**2)) """
 
-            pr_cobb_angles.append(cobb_evaluate.cobb_angle_calc(pr_landmarks, ori_image))
-            gt_cobb_angles.append(cobb_evaluate.cobb_angle_calc(gt_landmarks, ori_image))
+            """ pr_cobb_angles.append(cobb_evaluate.cobb_angle_calc(pr_landmarks, ori_image))
+            #gt_cobb_angles.append(cobb_evaluate.cobb_angle_calc(gt_landmarks, ori_image))
 
         pr_cobb_angles = np.asarray(pr_cobb_angles, np.float32)
-        gt_cobb_angles = np.asarray(gt_cobb_angles, np.float32)
+        gt_cobb_angles = np.asarray(gt_cobb_angles, np.float32) """
 
-        out_abs = abs(gt_cobb_angles - pr_cobb_angles)
-        out_add = gt_cobb_angles + pr_cobb_angles
+        #out_abs = abs(gt_cobb_angles - pr_cobb_angles)
+        #out_add = gt_cobb_angles + pr_cobb_angles
 
-        term1 = np.sum(out_abs, axis=1)
-        term2 = np.sum(out_add, axis=1)
+        #term1 = np.sum(out_abs, axis=1)
+        #term2 = np.sum(out_add, axis=1)
 
-        SMAPE = np.mean(term1 / term2 * 100)
+        #SMAPE = np.mean(term1 / term2 * 100)
 
-        print('mse of landmarkds is {}'.format(np.mean(landmark_dist)))
-        print('SMAPE is {}'.format(SMAPE))
+        """ print('mse of landmarkds is {}'.format(np.mean(landmark_dist)))
+        #print('SMAPE is {}'.format(SMAPE))
 
         total_time = total_time[1:]
         print('avg time is {}'.format(np.mean(total_time)))
-        print('FPS is {}'.format(1./np.mean(total_time)))
+        print('FPS is {}'.format(1./np.mean(total_time))) """
 
 
     def SMAPE_single_angle(self, gt_cobb_angles, pr_cobb_angles):
-        out_abs = abs(gt_cobb_angles - pr_cobb_angles)
-        out_add = gt_cobb_angles + pr_cobb_angles
+        #out_abs = abs(gt_cobb_angles - pr_cobb_angles)
+        #out_add = gt_cobb_angles + pr_cobb_angles
 
-        term1 = out_abs
-        term2 = out_add
+        #term1 = out_abs
+        #term2 = out_add
 
-        term2[term2==0] += 1e-5
+        """ term2[term2==0] += 1e-5
 
         SMAPE = np.mean(term1 / term2 * 100)
-        return SMAPE
+        return SMAPE """
 
     def eval_three_angles(self, args, save):
         save_path = 'weights_'+args.dataset
@@ -203,12 +203,12 @@ class Network(object):
             end_time = time.time()
             total_time.append(end_time-begin_time)
 
-            gt_landmarks = dsets.load_gt_pts(dsets.load_annoFolder(img_id))
+            """ gt_landmarks = dsets.load_gt_pts(dsets.load_annoFolder(img_id))
             for pr_pt, gt_pt in zip(pr_landmarks, gt_landmarks):
-                    landmark_dist.append(np.sqrt((pr_pt[0]-gt_pt[0])**2+(pr_pt[1]-gt_pt[1])**2))
+                    landmark_dist.append(np.sqrt((pr_pt[0]-gt_pt[0])**2+(pr_pt[1]-gt_pt[1])**2)) """
 
             pr_cobb_angles.append(cobb_evaluate.cobb_angle_calc(pr_landmarks, ori_image))
-            gt_cobb_angles.append(cobb_evaluate.cobb_angle_calc(gt_landmarks, ori_image))
+            #gt_cobb_angles.append(cobb_evaluate.cobb_angle_calc(gt_landmarks, ori_image))
 
         pr_cobb_angles = np.asarray(pr_cobb_angles, np.float32)
         gt_cobb_angles = np.asarray(gt_cobb_angles, np.float32)
@@ -312,10 +312,10 @@ class Network1(object):
             sort_ind = np.argsort(pts0[:,1])
             pts0 = pts0[sort_ind]
 
-            cobb_angles = cobb_angle_calc(pts0, ori_image_points)  ##add by me
+            """ cobb_angles = cobb_evaluate.cobb_angle_calc(pts0, ori_image_points)  ##add by me
 
             cobb_angles = cobb_evaluate.cobb_angle_calc(pts, image) ##added by me
-            print(f'Cobb Angles: {cobb_angles}')   ##add by me
+            print(f'Cobb Angles: {cobb_angles}')   ##add by me """
 
             ori_image_regress, ori_image_points = draw_points.draw_landmarks_regress_test(pts0,
                                                                                           ori_image_regress,
