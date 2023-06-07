@@ -107,11 +107,13 @@ class Network(object):
             total_time.append(end_time-begin_time)
 
             #gt_landmarks = dsets.load_gt_pts(dsets.load_annoFolder(img_id))
-            #for pr_pt, gt_pt in zip(pr_landmarks, gt_landmarks):
-            #        landmark_dist.append(np.sqrt((pr_pt[0]-gt_pt[0])**2+(pr_pt[1]-gt_pt[1])**2))
+            gt_landmarks = dsets.load_gt_pts(dsets.load_annoFolder('imp2.jpg'))
+            print(str(gt_landmarks))
+            for pr_pt, gt_pt in zip(pr_landmarks, gt_landmarks):
+                   landmark_dist.append(np.sqrt((pr_pt[0]-gt_pt[0])**2+(pr_pt[1]-gt_pt[1])**2))
 
             pr_cobb_angles.append(cobb_evaluate.cobb_angle_calc(pr_landmarks, ori_image))
-            #gt_cobb_angles.append(cobb_evaluate.cobb_angle_calc(gt_landmarks, ori_image))
+            gt_cobb_angles.append(cobb_evaluate.cobb_angle_calc(gt_landmarks, ori_image))
 
         pr_cobb_angles = np.asarray(pr_cobb_angles, np.float32)
         gt_cobb_angles = np.asarray(gt_cobb_angles, np.float32) 
@@ -124,15 +126,15 @@ class Network(object):
 
         SMAPE = np.mean(term1 / term2 * 100)
 
-        print('mse of landmarkds is {}'.format(np.mean(landmark_dist)))
-        print('SMAPE is {}'.format(SMAPE))
+        #print('mse of landmarkds is {}'.format(np.mean(landmark_dist)))
+        #print('SMAPE is {}'.format(SMAPE))
 
         total_time = total_time[1:]
-        print('avg time is {}'.format(np.mean(total_time)))
-        print('FPS is {}'.format(1./np.mean(total_time))) 
+        #print('avg time is {}'.format(np.mean(total_time)))
+        #print('FPS is {}'.format(1./np.mean(total_time))) 
 
 
-    def SMAPE_single_angle(self, gt_cobb_angles, pr_cobb_angles):
+"""     def SMAPE_single_angle(self, gt_cobb_angles, pr_cobb_angles):
         out_abs = abs(gt_cobb_angles - pr_cobb_angles)
         out_add = gt_cobb_angles + pr_cobb_angles
 
@@ -203,12 +205,12 @@ class Network(object):
             end_time = time.time()
             total_time.append(end_time-begin_time)
 
-            #gt_landmarks = dsets.load_gt_pts(dsets.load_annoFolder(img_id))
-            #for pr_pt, gt_pt in zip(pr_landmarks, gt_landmarks):
-            #        landmark_dist.append(np.sqrt((pr_pt[0]-gt_pt[0])**2+(pr_pt[1]-gt_pt[1])**2))
+            gt_landmarks = dsets.load_gt_pts(dsets.load_annoFolder('imp2.jpg'))
+            for pr_pt, gt_pt in zip(pr_landmarks, gt_landmarks):
+                    landmark_dist.append(np.sqrt((pr_pt[0]-gt_pt[0])**2+(pr_pt[1]-gt_pt[1])**2))
 
             pr_cobb_angles.append(cobb_evaluate.cobb_angle_calc(pr_landmarks, ori_image))
-            #gt_cobb_angles.append(cobb_evaluate.cobb_angle_calc(gt_landmarks, ori_image))
+            gt_cobb_angles.append(cobb_evaluate.cobb_angle_calc(gt_landmarks, ori_image))
 
         pr_cobb_angles = np.asarray(pr_cobb_angles, np.float32)
         gt_cobb_angles = np.asarray(gt_cobb_angles, np.float32)
@@ -218,11 +220,11 @@ class Network(object):
         print('SMAPE2 is {}'.format(self.SMAPE_single_angle(gt_cobb_angles[:,1], pr_cobb_angles[:,1])))
         print('SMAPE3 is {}'.format(self.SMAPE_single_angle(gt_cobb_angles[:,2], pr_cobb_angles[:,2])))
 
-        print('mse of landmarkds is {}'.format(np.mean(landmark_dist)))
+        #print('mse of landmarkds is {}'.format(np.mean(landmark_dist)))
 
         total_time = total_time[1:]
-        print('avg time is {}'.format(np.mean(total_time)))
-        print('FPS is {}'.format(1./np.mean(total_time)))
+        #print('avg time is {}'.format(np.mean(total_time)))
+        #print('FPS is {}'.format(1./np.mean(total_time))) """
 
 #test
 
