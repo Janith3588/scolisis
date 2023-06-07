@@ -108,8 +108,12 @@ class Network(object):
                                                                                           ori_image_regress,
                                                                                           ori_image_points)
 
-            cv2.imshow('ori_image_regress', ori_image_regress)
-            cv2.imshow('ori_image_points', ori_image_points)
+            #cv2.imshow('ori_image_regress.jpg', ori_image_regress)   #commented by myself
+            #cv2.imshow('ori_image_points.jpg', ori_image_points)     #commented by my self
+
+            cv2.imwrite('ori_image_regress_{}.jpg'.format(cnt), ori_image_regress)
+            cv2.imwrite('ori_image_points_{}.jpg'.format(cnt), ori_image_points)
+
             k = cv2.waitKey(0) & 0xFF
             if k == ord('q'):
                 cv2.destroyAllWindows()

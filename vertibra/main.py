@@ -35,7 +35,7 @@ if __name__ == '__main__':
     elif args.phase == 'test':
         is_object = test.Network(args)
         is_object.test(args, save=False)
-        is_object.test_single_image('my_image.jpg')    ##added by me
+        #is_object.test_single_image('my_image.jpg')    ##added by me
     elif args.phase == 'eval':
         is_object = eval.Network(args)
         is_object.eval(args, save=False)
