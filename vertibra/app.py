@@ -1,35 +1,36 @@
-from fastapi import FastAPI, Depends, HTTPException, Request
-from fastapi.responses import JSONResponse
-from pydantic import BaseModel
+import shutil
+from fastapi import FastAPI, Depends, HTTPException, Request, UploadFile, File
+from fastapi.responses import JSONResponse ,FileResponse
+#from pydantic import BaseModel
 import torch
 import test_e
 import argparse
+import time
+import os
+
+from main import parse_args, test_e
 
 app = FastAPI()
 
-# Function to get arguments
-def get_args(weight_path, data_path):
-    args = argparse.Namespace()
-    args.resume = model_last.pth
-    args.data_dir = input
-    args.dataset = 'spinal'
-    args.phase = 'test'
-    # Add other arguments with default values here as in your main.py
-    return args
-
-# Pydantic model to define the data model for request body
-class Item(BaseModel):
-    weight_path: str
-    data_path: str
 
 @app.post("/predict/")
-async def predict(item: Item):
-    args = get_args(item.weight_path, item.data_path)
+async def predict(file: UploadFile = File(...)):
+        # Save the uploaded file
+    save_path = "input.jpg"
+    with open(save_path, "wb") as buffer:
+        shutil.copyfileobj(file.file, buffer)
+
+        # Get the arguments for testing
+    args = parse_args()
+    args.resume = "model_last.pth"  # Provide the weightPath argument here
+    args.data_dir = "input"  # Provide the dataPath argument here
+    args.phase = "test"
+
     # Initialize Network
     is_object = test_e.Network(args)
     # Evaluate Network
     is_object.eval(args, save=False)
-    # You may want to retrieve and return some results here, 
+    # You may want to retrieve and return some results here,
     # Currently, your eval method does not seem to return anything
 
     time.sleep(2)
@@ -37,6 +38,10 @@ async def predict(item: Item):
 
     is_object = test_e.Network1(args)
     is_object.test(args, save=False)
+
+    # Return the output image
+    output_image_path = f"ori_image_regress_0.jpg"  # Modify this if needed
+    return FileResponse(output_image_path)
 
 if __name__ == "__main__":
     import uvicorn
