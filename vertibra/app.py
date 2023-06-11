@@ -1,12 +1,9 @@
 import shutil
 from fastapi import FastAPI, Depends, HTTPException, Request, UploadFile, File
 from fastapi.responses import JSONResponse ,FileResponse
-#from pydantic import BaseModel
 import torch
 import test_e
-import argparse
 import time
-import os
 
 from main import parse_args, test_e
 
@@ -42,6 +39,18 @@ async def predict(file: UploadFile = File(...)):
     # Return the output image
     output_image_path = f"ori_image_regress_0.jpg"  # Modify this if needed
     return FileResponse(output_image_path)
+
+def is_valid_image(file_path):
+    # Add your own validation logic here
+    # You can use libraries like Pillow or OpenCV to validate the image format
+    try:
+        # Check if the file can be opened as an image
+        img = File.open(file_path)
+        img.verify()  # Verifying the image file
+        return True
+    except (IOError, SyntaxError) as e:
+        # Invalid image file
+        return False
 
 if __name__ == "__main__":
     import uvicorn
