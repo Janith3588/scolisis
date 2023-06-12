@@ -1,0 +1,167 @@
+1. transform.py:
+- Imports numpy (as np), numpy.random, and cv2 for image processing.
+- Defines a function "rescale_pts(pts, down_ratio)" that rescales points by dividing them element-wise by a down_ratio.
+- Defines a class "Compose" that applies a list of transformations sequentially to an image and its points.
+- Defines a class "ConvertImgFloat" that converts the image and points to float32 data type.
+- Defines a class "RandomContrast" that adjusts image contrast randomly within a range.
+- Defines a class "RandomBrightness" that adjusts image brightness randomly within a range.
+- Defines a class "SwapChannels" that swaps the color channels of an image based on specified swaps.
+- Defines a class "RandomLightingNoise" that shuffles color channels randomly using predefined permutations.
+- Defines a class "PhotometricDistort" that combines contrast adjustment, brightness adjustment, and lighting noise.
+- Defines a class "Expand" that randomly expands the image while preserving original content.
+- Defines a class "RandomSampleCrop" that randomly samples a crop from the image and points based on options.
+- Defines classes "RandomMirror_w" and "RandomMirror_h" that randomly mirror the image and adjust points.
+- Defines a class "Resize" that resizes the image and scales points accordingly.
+- Relies on numpy and cv2 libraries.
+
+2. train.py:
+- Imports torch, torch.nn, os, numpy, and other modules.
+- Imports custom modules: "spinal_net" (for SpineNet architecture), "decoder" (for decoding predictions), "loss" (for computing losses), and "BaseDataset" (a custom dataset class/module).
+- Defines a "collater" function to process a batch of data samples into a dictionary of tensors.
+- Defines a "Network" class for training a SpineNet model on a specified dataset.
+- Defines "save_model" function to save the model's state dictionary and epoch number.
+- Defines "load_model" function to load model weights from a checkpoint, handling torch.nn.DataParallel case.
+- Defines "train_network" method for training the SpineNet model with optimizer, scheduler, and data loaders.
+- Defines "run_epoch" method to execute a single epoch of training or validation.
+- Connected files/methods/functions include the SpineNet model architecture, custom decoder and loss functions, and a custom dataset class/module.
+
+
+3. pre_proc.py:
+
+Libraries: cv2, torch.
+
+Custom modules: draw_gaussian, transform.
+
+processing_test(image, input_h, input_w): Resizes and processes the image for testing.
+
+draw_spinal(pts, out_image): Draws circles and labels on the image based on points to form a "spinal" shape.
+
+rearrange_pts(pts): Rearranges points in a left-to-right, top-to-bottom sequence.
+
+generate_ground_truth(image, pts_2, height, width, image_id): Generates ground truth data for facial landmark detection.
+
+processing_train(image, pts, height, width, downscale_ratio, augmentation_label, image_id): Processes image and points for training.
+
+Connected files:
+
+draw_gaussian: Contains functions for Gaussian blurring.
+transform: Contains utility functions and transformations.
+
+
+4. loss.py:
+
+RegL1Loss class: Defines regression L1 loss to penalize differences between predicted and target regression values.
+Utility functions: _gather_feat, _tranpose_and_gather_feat used within RegL1Loss forward method.
+FocalLoss class: Defines focal loss to handle class imbalance by assigning higher weights to hard examples.
+LossAll class: Combines FocalLoss and RegL1Loss to compute overall loss for object detection models.
+Connected files/methods/functions: Not provided in the code snippet.
+
+5. draw_points.py:
+
+Imports necessary libraries: cv2 (OpenCV) and numpy.
+Defines a list of normalized RGB color values.
+Implements the draw_landmarks_regress_test function to draw circles, lines, and annotations on images based on provided points.
+Implements the draw_landmarks_pre_proc function to draw circles on an image based on points.
+Implements the draw_regress_pre_proc function to draw arrowed lines and annotations on an image based on mean points.
+Uses the colors list to assign colors to drawn shapes.
+Connected files/methods/functions:
+
+No explicit references to external files or functions are present in the provided code.
+
+6.draw_loss.py:
+
+Imports libraries: matplotlib.pyplot as plt, numpy as np, and os.
+Function load_data(filename) reads a file and returns a list of numerical values.
+Variables dataset and weights_path store file paths.
+Function draw_loss() plots training and validation loss values using plt.plot() and displays the plot with plt.show().
+Function draw_loss_ap() extends draw_loss() by plotting average precision (AP) values from files. It creates a figure with two y-axes and displays the plot.
+If name == 'main': block calls draw_loss() to plot loss values.
+Connected files/methods/functions:
+
+load_data(filename): Reads a file to obtain numerical values.
+Files: 'train_loss.txt', 'val_loss.txt', 'ap_05_list.txt', 'ap_07_list.txt' likely contain loss values and AP scores for plotting.
+
+7.draw_gaussian.py:
+
+Function gaussian_radius(det_size, min_overlap): Calculates the radius of a Gaussian kernel based on detection size and minimum overlap.
+Function gaussian2D(shape, sigma): Generates a 2D Gaussian kernel of given shape and standard deviation.
+Function draw_umich_gaussian(heatmap, center, radius, k): Draws a Gaussian heatmap on a given heatmap array using the center, radius, and scaling factor.
+Connected files/methods/functions:
+
+None. All functions are self-contained within the provided code.
+
+8.decoder.py:
+
+Code: The code is for the DecDecoder class, implementing the decoding process for the CenterNet object detection framework. It has functions for selecting top K scores, performing non-maximum suppression (NMS), gathering features, and decoding detections.
+
+Functions/Methods:
+
+Class: DecDecoder(K, conf_thresh) - Initializes the decoder with parameters K and conf_thresh.
+Function: _topk(scores) - Selects the top K scores and their indices from a given tensor of scores.
+Function: _nms(heatmap) - Performs non-maximum suppression (NMS) on the input heatmap tensor.
+Function: _gather_feat(feat, indices) - Gathers features from the input tensor based on the provided indices.
+Function: _transpose_and_gather_feat(feat, indices) - Transposes the input tensor and gathers features based on the provided indices.
+Function: ctdet_decode(heat, wh, reg) - Main decoding function that takes heatmap, width/height, and regression predictions as input and returns detections.
+Connected files/methods/functions:
+
+No explicit reference or reliance on other files or external functions is visible in this code snippet.
+
+9.dataset.py:
+
+Code: The code implements a dataset class called BaseDataset for a computer vision task. It handles loading images and annotations, as well as processing them for training or testing.
+
+Functions/Methods:
+
+Function: rearrange_pts(points) - Rearranges input points into a specific order for bounding box coordinates.
+Class: BaseDataset(data_dir, phase, input_height, input_width, down_ratio) - Dataset class for computer vision tasks.
+Method: load_image(index) - Loads an image given its index.
+Method: load_gt_pts(annotation_file) - Loads ground truth points from an annotation file.
+Method: load_annoFolder(image_id) - Generates the annotation folder path for a given image ID.
+Method: load_annotation(image_id) - Loads ground truth points for a specific image ID.
+Method: getitem(index) - Retrieves an item from the dataset (image and annotations) based on the index.
+Method: len() - Returns the total number of images in the dataset.
+Connected files/methods/functions:
+
+Connected Files: pre_proc.py (preprocessing functions), cv2 (computer vision library), scipy.io.loadmat (MATLAB data file loading).
+Other potentially connected files or methods not visible in this code snippet.
+
+10.cobb_evaluate.py:
+
+Implements the cobb_angle_calc function.
+Takes an array of points (pts) and an image (image) as input.
+Calculates the Cobb angles based on the given points.
+Defines the is_S function to determine if the shape formed by the points resembles an 'S'.
+Converts the points to a NumPy array and initializes variables.
+Calculates midpoints between points and draws circles on the image.
+Draws lines connecting pairs of midpoints.
+Calculates vectors, dot products, and magnitudes.
+Calculates angles between the vectors and finds the maximum angle.
+Calculates Cobb angles and draws additional lines on the image.
+Returns a list of the three Cobb angles.
+
+11.spinal_net.py:
+
+Defines the SpineNet module for object detection.
+Composed of a backbone network and a decoding network.
+Backbone network uses the ResNet-34 architecture.
+Decoding network performs object detection and produces detection outputs.
+Imports the DecNet class from the dec_net module and the resnet module.
+SpineNet takes parameters for heads, pretrained, down_ratio, final_kernel, and head_conv.
+Initializes the backbone network (ResNet-34) and the decoding network (DecNet).
+Forward method performs the forward pass through the backbone and decoding networks.
+Returns a dictionary of detection outputs (dec_dict).
+
+12. test.py
+
+import torch;import numpy as np;from models import spinal_net;import cv2;import decoder;import os;from dataset import BaseDataset;import draw_points;import time;import cobb_evaluate;def apply_mask(image,mask,alpha=0.5):color=np.random.rand(3);for c in range(3):image[:,:,c]=np.where(mask==1,image[:,:,c]*(1-alpha)+alpha*color[c]*255,image[:,:,c]);return image;class Network(object):def __init__(self,args):torch.manual_seed(317);self.device=torch.device("cuda:0"if torch.cuda.is_available()else"cpu");heads={'hm':args.num_classes,'reg':2*args.num_classes,'wh':2*4,};self.model=spinal_net.SpineNet(heads=heads,pretrained=True,down_ratio=args.down_ratio,final_kernel=1,head_conv=256);self.num_classes=args.num_classes;self.decoder=decoder.DecDecoder(K=args.K,conf_thresh=args.conf_thresh);self.dataset={'spinal':BaseDataset};def load_model(self,model,resume):checkpoint=torch.load(resume,map_location=lambda storage,loc:storage);print('loaded weights from {}, epoch {}'.format(resume,checkpoint['epoch']));state_dict_=checkpoint['state_dict'];model.load_state_dict(state_dict_,strict=False);return model;def eval(self,args,save):save_path='weights_'+args.dataset;self.model=self.load_model(self.model,os.path.join(save_path,args.resume));self.model=self.model.to(self.device);self.model.eval();dataset_module=self.dataset[args.dataset];dsets=dataset_module(data_dir=args.data_dir,phase='test',input_h=args.input_h,input_w=args.input_w,down_ratio=args.down_ratio);data_loader=torch.utils.data.DataLoader(dsets,batch_size=1,shuffle=False,num_workers=1,pin_memory=True);total_time=[];landmark_dist=[];pr_cobb_angles=[];gt_cobb_angles=[];for cnt,data_dict in enumerate(data_loader):begin_time=time.time();images=data_dict['images'][0];img_id=data_dict['img_id'][0];images=images.to('cuda');print('processing {}/{} image ...'.format(cnt,len(data_loader)));with torch.no_grad():output=self.model(images);hm=output['hm'];wh=output['wh'];reg=output['reg'];torch.cuda.synchronize(self.device);pts2=self.decoder.ctdet_decode(hm,wh,reg);pts0=pts2.copy();pts0[:,:10]*=args.down_ratio;x_index=range(0,10,2);y_index=range(1,10,2);ori_image=dsets.load_image(dsets.img_ids.index(img_id)).copy();h,w,c=ori_image.shape;pts0[:,x_index]=pts0[:,x_index]/args.input_w*w;pts0[:,y_index]=pts0[:,y_index]/args.input_h*h;sort_ind=np.argsort(pts0[:,1]);pts0=pts0[sort_ind];pr_landmarks=[];for i,pt in enumerate(pts0):pr_landmarks.append(pt[2:4]);pr_landmarks.append(pt[4:6]);pr_landmarks.append(pt[6:8]);pr_landmarks.append(pt[8:10]);pr_landmarks=np.asarray(pr_landmarks,np.float32);end_time=time.time();total_time.append(end_time-begin_time);gt_landmarks=dsets.load_gt_pts(dsets.load_annoFolder('imp2.jpg'));for pr_pt,gt_pt in zip(pr_landmarks,gt_landmarks):landmark_dist.append(np.sqrt((pr_pt[0]-gt_pt[0])**2+(pr_pt[1]-gt_pt[1])**2));pr_cobb_angles.append(cobb_evaluate.cobb_angle_calc(pr_landmarks,ori_image));class Network1(object):def __init__(self,args):torch.manual_seed(317);self.device=torch.device("cuda:0"if torch.cuda.is_available()else"cpu");heads={'hm':args.num_classes,'reg':2*args.num_classes,'wh':2*4,};self.model=spinal_net.SpineNet(heads=heads,pretrained=True,down_ratio=args.down_ratio,final_kernel=1,head_conv=256);self.num_classes=args.num_classes;self.decoder=decoder.DecDecoder(K=args.K,conf_thresh=args.conf_thresh);self.dataset={'spinal':BaseDataset};def load_model(self,model,resume):checkpoint=torch.load(resume,map_location=lambda storage,loc:storage);print('loaded weights from {}, epoch {}'.format(resume,checkpoint['epoch']));state_dict_=checkpoint['state_dict'];model.load_state_dict(state_dict_,strict=False);return model;def map_mask_to_image(self,mask,img,color=None):if color is None:color=np.random.rand(3);mask=np.repeat(mask[:,:,np.newaxis],3,axis=2);mskd=img*mask;clmsk=np.ones(mask.shape)*mask;clmsk[:,:,0]=clmsk[:,:,0]*color[0]*256;clmsk[:,:,1]=clmsk[:,:,1]*color[1]*256;clmsk[:,:,2]=clmsk[:,:,2]*color[2]*256;img=img+1.*clmsk-1.*mskd;return np.uint8(img);def test(self,args,save):save_path='weights_'+args.dataset;self.model=self.load_model(self.model,os.path.join(save_path,args.resume));self.model=self.model.to(self.device);self.model.eval();dataset_module=self.dataset[args.dataset];dsets=dataset_module(data_dir=args.data_dir,phase='test',input_h=args.input_h,input_w=args.input_w,down_ratio=args.down_ratio);data_loader=torch.utils.data.DataLoader(dsets,batch_size=1,shuffle=False,num_workers=1,pin_memory=True);for cnt,data_dict in enumerate(data_loader):images=data_dict['images'][0];img_id=data_dict['img_id'][0];images=images.to('cuda');print('processing {}/{} image ... {}'.format(cnt,len(data_loader),img_id));with torch.no_grad():output=self.model(images);hm=output['hm'];wh=output['wh'];reg=output['reg'];torch.cuda.synchronize(self.device);pts2=self.decoder.ctdet_decode(hm,wh,reg);pts0=pts2.copy();pts0[:,:10]*=args.down_ratio;print('totol pts num is {}'.format(len(pts2)));ori_image=dsets.load_image(dsets.img_ids.index(img_id));ori_image_regress=cv2.resize(ori_image,(args.input_w,args.input_h));ori_image_points=ori_image_regress.copy();h,w,c=ori_image.shape;pts0=np.asarray(pts0,np.float32);sort_ind=np.argsort(pts0[:,1]);pts0=pts0[sort_ind];ori_image_regress,ori_image_points=draw_points.draw_landmarks_regress_test(pts0,ori_image_regress,ori_image_points);cv2.imwrite('ori_image_regress_{}.jpg'.format(cnt),ori_image_regress);cv2.imwrite('ori_image_points_{}.jpg'.format(cnt),ori_image_points);k=cv2.waitKey(0)&0xFF;if k==ord('q'):cv2.destroyAllWindows();exit()
+
+
+13.main.py
+
+import argparse;import train;import test_e;import eval;import time;def parse_args():parser=argparse.ArgumentParser(description='CenterNet Modification Implementation');parser.add_argument('--num_epoch',type=int,default=50,help='Number of epochs');parser.add_argument('--batch_size',type=int,default=2,help='Number of epochs');parser.add_argument('--num_workers',type=int,default=4,help='Number of workers');parser.add_argument('--init_lr',type=float,default=1.25e-4,help='Init learning rate');parser.add_argument('--down_ratio',type=int,default=4,help='down ratio');parser.add_argument('--input_h',type=int,default=1024,help='input height');parser.add_argument('--input_w',type=int,default=512,help='input width');parser.add_argument('--K',type=int,default=100,help='maximum of objects');parser.add_argument('--conf_thresh',type=float,default=0.2,help='confidence threshold');parser.add_argument('--seg_thresh',type=float,default=0.5,help='confidence threshold');parser.add_argument('--num_classes',type=int,default=1,help='number of classes');parser.add_argument('--ngpus',type=int,default=0,help='number of gpus');parser.add_argument('--resume',type=str,default='model_last.pth',help='weights to be resumed');parser.add_argument('--data_dir',type=str,default='Datasets\spinal',help='data directory');parser.add_argument('--phase',type=str,default='test',help='data directory');parser.add_argument('--dataset',type=str,default='spinal',help='data directory');args=parser.parse_args();return args;args=parse_args();if args.phase=='train':is_object=train.Network(args);is_object.train_network(args);elif args.phase=='test':is_object=test_e.Network(args);is_object.eval(args,save=False);time.sleep(2);print("weit 2 sec");is_object=test_e.Network1(args);is_object.test(args,save=False);elif args.phase=='eval':is_object=eval.Network(args);is_object.eval(args,save=True);
+
+above programme is  have all of VERTEBRA-FOCUSED LANDMARK DETECTION FOR SCOLIOSIS ASSESSMENT programe files .this is a description of a python file content and what do in that files. I need to deploy this ML modle in cloud.for that i need to create api for this using fastAPI. i need to run test phase using api. i use this comand for run test phase.
+
+python main.py --resume weightPath --data_dir dataPath --dataset spinal  --phase test
+
+can you create app.py file for API?
