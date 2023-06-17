@@ -18,6 +18,17 @@ def is_S(mid_p_v):
     else:
         return True
 
+def get_condition(cobb_angle):
+    if cobb_angle <= 10:
+        return "Spinal curve"
+    elif cobb_angle <= 20:
+        return "Mild scoliosis"
+    elif cobb_angle <= 40:
+        return "Moderate scoliosis"
+    else:
+        return "Severe scoliosis"
+
+
 def cobb_angle_calc(pts, image):
     pts = np.asarray(pts, np.float32)   # 68 x 2
     h,w,c = image.shape
@@ -60,8 +71,9 @@ def cobb_angle_calc(pts, image):
     cobb_angle1 = np.amax(maxt)
     cobb_angle1 = cobb_angle1/np.pi*180
     flag_s = is_S(mid_p_v)
+
     if not flag_s: # not S
-        print('Not S')
+        print('This patient does not have scoliosis. Looks like a normal spine!')
         cobb_angle2 = angles[0, pos2]/np.pi*180
         cobb_angle3 = angles[vnum, pos1[pos2]]/np.pi*180
         cv2.line(image,
@@ -75,7 +87,7 @@ def cobb_angle_calc(pts, image):
 
     else:
         if (mid_p_v[pos2*2, 1]+mid_p_v[pos1[pos2]*2,1])<h:
-            print('Is S: condition1')
+            #print('Is S: Thoracic or Thoraco-Lumbar Scoliosis')
             angle2 = angles[pos2,:(pos2+1)]
             cobb_angle2 = np.max(angle2)
             pos1_1 = np.argmax(angle2)
@@ -98,7 +110,7 @@ def cobb_angle_calc(pts, image):
                      color=(0, 255, 0), thickness=5, lineType=2)
 
         else:
-            print('Is S: condition2')
+            #print('Is S: Lumbar Scoliosis')
             angle2 = angles[pos2,:(pos2+1)]
             cobb_angle2 = np.max(angle2)
             pos1_1 = np.argmax(angle2)
@@ -119,5 +131,15 @@ def cobb_angle_calc(pts, image):
                      (int(mid_p[pos1_2 * 2+1, 0]), int(mid_p[pos1_2 * 2 + 1, 1])),
                      color=(0, 255, 0), thickness=5, lineType=2)
 
-    print("cob1: "+ str(cobb_angle1),"cobb2 : " + str(cobb_angle2),"Cobb3 : " +  str(cobb_angle3))
+    conditions = [get_condition(cobb_angle1), get_condition(cobb_angle2), get_condition(cobb_angle3)]
+    cobb_angles = [cobb_angle1, cobb_angle2, cobb_angle3]
+    highest_curve_index = np.argmax(cobb_angles)
+    curve_types = ["Proximal Thoracic (PT)", "Main Thoracic (MT)", "Thoracolumbar (TL)"]
+
+    print(f"Refer to your Scoliosis Cobb Angle details,\n")
+    print(f"Proximal Thoracic (PT) Curve is: {cobb_angle1:.2f} degrees.")
+    print(f"Main Thoracic (MT) Curve is: {cobb_angle2:.2f} degrees.")
+    print(f"Thoracolumbar (TL) Curve is: {cobb_angle3:.2f} degrees.\n")
+    print(f"According to this result, there is a high possibility of increasing the curve in {curve_types[highest_curve_index]} and it is in {conditions[highest_curve_index]}.")
+
     return [cobb_angle1, cobb_angle2, cobb_angle3]
