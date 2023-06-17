@@ -5,7 +5,6 @@ import cv2
 from scipy.io import loadmat
 import numpy as np
 
-
 def rearrange_pts(pts):
     boxes = []
     for k in range(0, len(pts), 4):

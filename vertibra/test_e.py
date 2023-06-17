@@ -9,7 +9,7 @@ import draw_points
 import time
 import cobb_evaluate
 
-#evel
+#eveluate
 
 def apply_mask(image, mask, alpha=0.5):
     """Apply the given mask to the image.
@@ -45,7 +45,6 @@ class Network(object):
         state_dict_ = checkpoint['state_dict']
         model.load_state_dict(state_dict_, strict=False)
         return model
-
 
     def eval(self, args, save):
         save_path = 'weights_'+args.dataset
@@ -106,7 +105,6 @@ class Network(object):
             end_time = time.time()
             total_time.append(end_time-begin_time)
 
-            
             gt_landmarks = dsets.load_gt_pts(dsets.load_annoFolder('imp2.jpg'))
             
             for pr_pt, gt_pt in zip(pr_landmarks, gt_landmarks):
@@ -152,7 +150,6 @@ class Network1(object):
         img = img + 1. * clmsk - 1. * mskd
         return np.uint8(img)
 
-
     def test(self, args, save):
         save_path = 'weights_'+args.dataset
         self.model = self.load_model(self.model, os.path.join(save_path, args.resume))
@@ -171,7 +168,6 @@ class Network1(object):
                                                   shuffle=False,
                                                   num_workers=1,
                                                   pin_memory=True)
-
 
         for cnt, data_dict in enumerate(data_loader):
             images = data_dict['images'][0]
@@ -201,17 +197,12 @@ class Network1(object):
             sort_ind = np.argsort(pts0[:,1])
             pts0 = pts0[sort_ind]
 
-
             ori_image_regress, ori_image_points = draw_points.draw_landmarks_regress_test(pts0,
                                                                                           ori_image_regress,
                                                                                           ori_image_points)
 
-           
-
             cv2.imwrite('ori_image_regress_{}.jpg'.format(cnt), ori_image_regress)
             cv2.imwrite('ori_image_points_{}.jpg'.format(cnt), ori_image_points)
-
-            
 
             k = cv2.waitKey(0) & 0xFF
             if k == ord('q'):

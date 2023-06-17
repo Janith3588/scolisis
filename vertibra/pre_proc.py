@@ -4,7 +4,6 @@ from draw_gaussian import *
 import transform
 import math
 
-
 def processing_test(image, input_h, input_w):
     image = cv2.resize(image, (input_w, input_h))
     out_image = image.astype(np.float32) / 255.
@@ -12,7 +11,6 @@ def processing_test(image, input_h, input_w):
     out_image = out_image.transpose(2, 0, 1).reshape(1, 3, input_h, input_w)
     out_image = torch.from_numpy(out_image)
     return out_image
-
 
 def draw_spinal(pts, out_image):
     colors = [(0, 0, 255), (0, 255, 255), (255, 0, 255), (0, 255, 0)]
@@ -26,7 +24,6 @@ def draw_spinal(pts, out_image):
                  (int(pts[j, 0]), int(pts[j, 1])),
                  color=colors[i], thickness=1, lineType=1)
     return out_image
-
 
 def rearrange_pts(pts):
     # rearrange left right sequence
@@ -61,7 +58,6 @@ def rearrange_pts(pts):
         new_bboxes.append(bboxes[4*sort_i+3, :])
     new_bboxes = np.asarray(new_bboxes, np.float32)
     return new_bboxes
-
 
 def generate_ground_truth(image,
                           pts_2,
@@ -110,7 +106,6 @@ def generate_ground_truth(image,
 
     return ret
 
-
 def processing_train(image, pts, image_h, image_w, down_ratio, aug_label, img_id):
     # filter pts ----------------------------------------------------
     h,w,c = image.shape
@@ -133,4 +128,3 @@ def processing_train(image, pts, image_h, image_w, down_ratio, aug_label, img_id
     pts2 = transform.rescale_pts(pts, down_ratio=down_ratio)
 
     return np.asarray(out_image, np.float32), pts2
-

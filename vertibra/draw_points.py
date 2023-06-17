@@ -21,10 +21,7 @@ colors = [[0.76590096, 0.0266074, 0.9806378],
            [0.95815068, 0.88436046, 0.55782268],
            [0.03728425, 0.0618827, 0.88641827],
            [0.05281129, 0.89572238, 0.08913828],
-
            ]
-
-
 
 def draw_landmarks_regress_test(pts0, ori_image_regress, ori_image_points):
     for i, pt in enumerate(pts0):
@@ -52,8 +49,6 @@ def draw_landmarks_regress_test(pts0, ori_image_regress, ori_image_points):
         cv2.circle(ori_image_points, (int(pt[8]), int(pt[9])), 5, color_255, -1, 1)
     return ori_image_regress, ori_image_points
 
-
-
 def draw_landmarks_pre_proc(out_image, pts):
     for i in range(17):
         pts_4 = pts[4 * i:4 * i + 4, :]
@@ -64,7 +59,6 @@ def draw_landmarks_pre_proc(out_image, pts):
         cv2.circle(out_image, (int(pts_4[2, 0]), int(pts_4[2, 1])), 5, color_255, -1, 1)
         cv2.circle(out_image, (int(pts_4[3, 0]), int(pts_4[3, 1])), 5, color_255, -1, 1)
     return np.uint8(out_image)
-
 
 def draw_regress_pre_proc(out_image, pts):
     for i in range(17):

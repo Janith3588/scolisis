@@ -1,7 +1,6 @@
 import numpy as np
 import cv2
 
-
 def is_S(mid_p_v):
     
     ll = []

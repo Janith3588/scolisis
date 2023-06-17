@@ -2,7 +2,6 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-
 class RegL1Loss(nn.Module):
     def __init__(self):
         super(RegL1Loss, self).__init__()
