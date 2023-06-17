@@ -23,7 +23,6 @@ class DecDecoder(object):
 
         return topk_score, topk_inds, topk_ys, topk_xs
 
-
     def _nms(self, heat, kernel=3):
         hmax = F.max_pool2d(heat, (kernel, kernel), stride=1, padding=(kernel - 1) // 2)
         keep = (hmax == heat).float()

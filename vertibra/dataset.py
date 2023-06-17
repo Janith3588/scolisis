@@ -25,7 +25,6 @@ def rearrange_pts(pts):
         boxes.append(br)
     return np.asarray(boxes, np.float32)
 
-
 class BaseDataset(data.Dataset):
     def __init__(self, data_dir, phase, input_h=None, input_w=None, down_ratio=4):
         super(BaseDataset, self).__init__()

@@ -29,7 +29,6 @@ def draw_loss():
 
     plt.show()
 
-
 def draw_loss_ap():
     ap05_pts = load_data(os.path.join(weights_path, 'ap_05_list.txt'))
     ap07_pts = load_data(os.path.join(weights_path, 'ap_07_list.txt'))
@@ -56,7 +55,6 @@ def draw_loss_ap():
     fig.tight_layout()  # otherwise the right y-label is slightly clipped
     plt.legend(loc = 'upper right')
     plt.show()
-
 
 if __name__ == '__main__':
     draw_loss()
