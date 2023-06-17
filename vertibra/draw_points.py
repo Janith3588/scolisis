@@ -28,15 +28,9 @@ colors = [[0.76590096, 0.0266074, 0.9806378],
 
 def draw_landmarks_regress_test(pts0, ori_image_regress, ori_image_points):
     for i, pt in enumerate(pts0):
-        # color = np.random.rand(3)
         color = colors[i]
-        # print(i+1, color)
         color_255 = (255 * color[0], 255 * color[1], 255 * color[2])
         cv2.circle(ori_image_regress, (int(pt[0]), int(pt[1])), 6, color_255, -1, 1)
-        # cv2.circle(ori_image, (int(pt[2]), int(pt[3])), 5, color_255, -1,1)
-        # cv2.circle(ori_image, (int(pt[4]), int(pt[5])), 5, color_255, -1,1)
-        # cv2.circle(ori_image, (int(pt[6]), int(pt[7])), 5, color_255, -1,1)
-        # cv2.circle(ori_image, (int(pt[8]), int(pt[9])), 5, color_255, -1,1)
         cv2.arrowedLine(ori_image_regress, (int(pt[0]), int(pt[1])), (int(pt[2]), int(pt[3])), color_255, 2, 1,
                         tipLength=0.2)
         cv2.arrowedLine(ori_image_regress, (int(pt[0]), int(pt[1])), (int(pt[4]), int(pt[5])), color_255, 2, 1,
@@ -52,7 +46,6 @@ def draw_landmarks_regress_test(pts0, ori_image_regress, ori_image_points):
                     color_255,  # (255,255,255),
                     1,
                     1)
-        # cv2.circle(ori_image, (int(pt[0]), int(pt[1])), 6, (255,255,255), -1,1)
         cv2.circle(ori_image_points, (int(pt[2]), int(pt[3])), 5, color_255, -1, 1)
         cv2.circle(ori_image_points, (int(pt[4]), int(pt[5])), 5, color_255, -1, 1)
         cv2.circle(ori_image_points, (int(pt[6]), int(pt[7])), 5, color_255, -1, 1)

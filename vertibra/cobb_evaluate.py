@@ -3,15 +3,15 @@ import cv2
 
 
 def is_S(mid_p_v):
-    # mid_p_v:  34 x 2
+    
     ll = []
     num = mid_p_v.shape[0]
     for i in range(num-2):
         term1 = (mid_p_v[i, 1]-mid_p_v[num-1, 1])/(mid_p_v[0, 1]-mid_p_v[num-1, 1])
         term2 = (mid_p_v[i, 0]-mid_p_v[num-1, 0])/(mid_p_v[0, 0]-mid_p_v[num-1, 0])
         ll.append(term1-term2)
-    ll = np.asarray(ll, np.float32)[:, np.newaxis]   # 32 x 1
-    ll_pair = np.matmul(ll, np.transpose(ll))        # 32 x 32
+    ll = np.asarray(ll, np.float32)[:, np.newaxis]   
+    ll_pair = np.matmul(ll, np.transpose(ll))        
     a = sum(sum(ll_pair))
     b = sum(sum(abs(ll_pair)))
     if abs(a-b)<1e-4:

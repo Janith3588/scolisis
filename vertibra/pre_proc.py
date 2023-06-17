@@ -110,21 +110,11 @@ def generate_ground_truth(image,
 
     return ret
 
-# def filter_pts(pts, w, h):
-#     pts_new = []
-#     for pt in pts:
-#         if any(pt) < 0 or pt[0] > w - 1 or pt[1] > h - 1:
-#             continue
-#         else:
-#             pts_new.append(pt)
-#     return np.asarray(pts_new, np.float32)
-
 
 def processing_train(image, pts, image_h, image_w, down_ratio, aug_label, img_id):
     # filter pts ----------------------------------------------------
     h,w,c = image.shape
     # pts = filter_pts(pts, w, h)
-    # ---------------------------------------------------------------
     data_aug = {'train': transform.Compose([transform.ConvertImgFloat(),
                                             transform.PhotometricDistort(),
                                             transform.Expand(max_scale=1.5, mean=(0, 0, 0)),

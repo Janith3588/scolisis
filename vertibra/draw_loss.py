@@ -13,7 +13,6 @@ def load_data(filename):
 dataset = 'spinal'
 weights_path = 'weights_'+dataset
 
-###############################################
 # Load data
 train_pts = load_data(os.path.join(weights_path, 'train_loss.txt'))
 val_pts = load_data(os.path.join(weights_path, 'val_loss.txt'))

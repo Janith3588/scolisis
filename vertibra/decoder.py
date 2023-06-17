@@ -46,10 +46,9 @@ class DecDecoder(object):
         return feat
 
     def ctdet_decode(self, heat, wh, reg):
-        # output: num_obj x 7
-        # 7: cenx, ceny, w, h, angle, score, cls
+       
         batch, c, height, width = heat.size()
-        heat = self._nms(heat)   # [1, 1, 256, 128]
+        heat = self._nms(heat)   
         scores, inds, ys, xs = self._topk(heat)
         scores = scores.view(batch, self.K, 1)
         reg = self._tranpose_and_gather_feat(reg, inds)
