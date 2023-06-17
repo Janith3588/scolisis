@@ -35,7 +35,6 @@ class Network(object):
         self.decoder = decoder.DecDecoder(K=args.K, conf_thresh=args.conf_thresh)
         self.dataset = {'spinal': BaseDataset}
 
-
     def save_model(self, path, epoch, model):
         if isinstance(model, torch.nn.DataParallel):
             state_dict = model.module.state_dict()
@@ -113,7 +112,6 @@ class Network(object):
                                                           pin_memory=True,
                                                           collate_fn=collater)}
 
-
         print('Starting training...')
         train_loss = []
         val_loss = []
@@ -166,4 +164,3 @@ class Network(object):
         epoch_loss = running_loss / len(data_loader)
         print('{} loss: {}'.format(phase, epoch_loss))
         return epoch_loss
-

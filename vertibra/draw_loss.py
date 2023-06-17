@@ -13,7 +13,6 @@ def load_data(filename):
 dataset = 'spinal'
 weights_path = 'weights_'+dataset
 
-###############################################
 # Load data
 train_pts = load_data(os.path.join(weights_path, 'train_loss.txt'))
 val_pts = load_data(os.path.join(weights_path, 'val_loss.txt'))
@@ -29,7 +28,6 @@ def draw_loss():
     plt.ylabel('Loss')
 
     plt.show()
-
 
 def draw_loss_ap():
     ap05_pts = load_data(os.path.join(weights_path, 'ap_05_list.txt'))
@@ -57,7 +55,6 @@ def draw_loss_ap():
     fig.tight_layout()  # otherwise the right y-label is slightly clipped
     plt.legend(loc = 'upper right')
     plt.show()
-
 
 if __name__ == '__main__':
     draw_loss()

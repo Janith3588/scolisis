@@ -1,12 +1,9 @@
-
 import numpy as np
 from numpy import random
 import cv2
 
-
 def rescale_pts(pts, down_ratio):
     return np.asarray(pts, np.float32)/float(down_ratio)
-
 
 class Compose(object):
     def __init__(self, transforms):
@@ -34,7 +31,6 @@ class RandomContrast(object):
             img *= alpha
         return img, pts
 
-
 class RandomBrightness(object):
     def __init__(self, delta=32):
         assert delta >= 0.0
@@ -54,7 +50,6 @@ class SwapChannels(object):
         img = img[:, :, self.swaps]
         return img
 
-
 class RandomLightingNoise(object):
     def __init__(self):
         self.perms = ((0, 1, 2), (0, 2, 1),
@@ -66,7 +61,6 @@ class RandomLightingNoise(object):
             shuffle = SwapChannels(swap)
             img = shuffle(img)
         return img, pts
-
 
 class PhotometricDistort(object):
     def __init__(self):
@@ -83,7 +77,6 @@ class PhotometricDistort(object):
         img, pts = distort(img, pts)
         img, pts = self.rln(img, pts)
         return img, pts
-
 
 class Expand(object):
     def __init__(self, max_scale = 1.5, mean = (0.5, 0.5, 0.5)):
@@ -107,18 +100,15 @@ class Expand(object):
             pts[:, 1] += int(y1)
             return expand_img, pts
 
-
 class RandomSampleCrop(object):
     def __init__(self, ratio=(0.5, 1.5), min_win = 0.9):
         self.sample_options = (
-            # using entire original input image
+            
             None,
-            # sample a patch s.t. MIN jaccard w/ obj in .1,.3,.4,.7,.9
-            # (0.1, None),
-            # (0.3, None),
+            
             (0.7, None),
             (0.9, None),
-            # randomly sample a patch
+            
             (None, None),
         )
         self.ratio = ratio
@@ -167,7 +157,6 @@ class RandomMirror_h(object):
             img = img[::-1,:,:]
             pts[:,1] = h-pts[:,1]
         return img, pts
-
 
 class Resize(object):
     def __init__(self, h, w):

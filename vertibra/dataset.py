@@ -5,7 +5,6 @@ import cv2
 from scipy.io import loadmat
 import numpy as np
 
-
 def rearrange_pts(pts):
     boxes = []
     for k in range(0, len(pts), 4):
@@ -25,7 +24,6 @@ def rearrange_pts(pts):
         boxes.append(bl)
         boxes.append(br)
     return np.asarray(boxes, np.float32)
-
 
 class BaseDataset(data.Dataset):
     def __init__(self, data_dir, phase, input_h=None, input_w=None, down_ratio=4):

@@ -1,9 +1,6 @@
 import argparse
 import train
 import test_e
-import eval
-#import all
-#import test as tst
 import time
 
 def parse_args():
@@ -27,8 +24,6 @@ def parse_args():
     args = parser.parse_args()
     return args
 
-
-
 if __name__ == '__main__':
     args = parse_args()
     if args.phase == 'train':
@@ -37,15 +32,6 @@ if __name__ == '__main__':
 
     elif args.phase == 'test':
         is_object = test_e.Network(args)
-        is_object.eval(args, save=False)    ##made true
-
-        time.sleep(2)
-        print("weit 2 sec")
-
+        is_object.eval(args, save=False)    
         is_object = test_e.Network1(args)
-        is_object.test(args, save=False)    ##made true
-
-    elif args.phase == 'eval':
-        is_object = eval.Network(args)
-        is_object.eval(args, save=True)   ##made true by me
-        # is_object.eval_three_angles(args, save=False)
+        is_object.test(args, save=False)    
